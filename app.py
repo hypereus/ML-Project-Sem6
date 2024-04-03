@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import joblib
 import pandas as pd
-
+import numpy as np
 app = Flask(__name__)
 
 # Load the model
@@ -17,7 +17,7 @@ def form():
 # Handle form submission and provide prediction
 @app.route("/predict", methods=["POST"])
 def predict():
-    print("Hello World")
+    # print("Hello World")
     # Get form data
     features = []
     try:
@@ -81,15 +81,19 @@ def predict():
     # scaler = joblib.load('scaler.pkl')
 
     # X_test_scaled = scaler.transform([features])
-
-    prediction = model.predict(features.values.reshape(1, -1))
-    print(prediction)
-
+    features= np.array(features)
+    prediction = model.predict(features.reshape(1,-1))
+    # print(prediction)
+    
+    if(prediction == [1]):
+        ans = "Positive"
+    else:
+        ans="Negative"
     # Render the result page with prediction
-    return render_template("result.html", prediction=prediction)
+    return render_template("result.html", prediction=ans)
 
 
 print("Hello")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
