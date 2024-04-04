@@ -1,6 +1,4 @@
 flask
 joblib
-flask_cors
 scikit-learn==1.2.2
-Pillow
 gunicorn
